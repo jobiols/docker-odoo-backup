@@ -31,7 +31,8 @@ if [ "$1" = "-c" ]
         CUSTOMER=$KEY
         DB=${conf["$KEY"]}
         echo -e "${YELLOW}Starting backup for database ${DB} of ${CUSTOMER}...${STD}"
-        docker run -ti --volumes-from $CUSTOMER.data -v /jamoshared/backup:/backup --rm --env DBNAME=$DB jamotion/odoo-backup &> /jamoshared/backup/$CUSTOMER.log
+        docker run --rm -ti --volumes-from $CUSTOMER.data -v /jamoshared/backup:/backup \
+          --env DBNAME=$DB jamotion/odoo-backup &> /jamoshared/backup/$CUSTOMER.log
         if [ $? -ne 0 ]
           then 
             echo -e "${RED}Backup for ${CUSTOMER} with  ${DB} failed!${STD}"
@@ -54,7 +55,8 @@ if [ "$1" = "-c" ]
     DB=$2
 
     echo -e "${YELLOW}Starting backup for database ${DB} of ${CUSTOMER}...${STD}"
-    docker run -ti --volumes-from $CUSTOMER.data -v /jamoshared/backup:/backup --rm --env DBNAME=$DB jamotion/odoo-backup &> /jamoshared/backup/$CUSTOMER.log
+    docker run --rm -ti --volumes-from $CUSTOMER.data -v /jamoshared/backup:/backup  \
+      --env DBNAME=$DB jamotion/odoo-backup &> /jamoshared/backup/$CUSTOMER.log
     if [ $? -ne 0 ]
       then 
         echo -e "${RED}Backup for ${CUSTOMER} with  ${DB} failed!${STD}"
