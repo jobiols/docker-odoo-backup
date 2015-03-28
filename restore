@@ -1,0 +1,58 @@
+#!/bin/bash
+if [ ! -f /data/odoo/odoo-server.conf ]
+  then
+    echo "Error! odoo-server.conf not found!"
+    exit 2
+fi
+
+declare -A conf
+
+IFS="="
+while read -r name value
+do
+  key=$(echo "$name" | sed 's/^ *//g' | sed 's/ *$//g')
+  val=$(echo "$value" | sed 's/^ *//g' | sed 's/ *$//g')
+  conf[$key]=$val
+done < /data/odoo/odoo-server.conf
+
+if [ ! -d /backup ]
+  then
+    echo "Error! /backup directory not found!"
+    exit 2
+fi
+
+DBFILE=/backup/${DBNAME}_${DATE}.dump
+TARFILE=/backup/${DBNAME}_${DATE}.tar
+
+if [ ! -f ${TARFILE} ]
+  then
+    echo "Error! File ${TARFILE} not found!"
+    exit 2
+fi
+
+if [ ! -f ${DBFILE} ]
+  then
+    echo "Error! File ${DBFILE} not found!"
+    exit 2
+fi
+
+echo "Restore files..."
+tar -xvf ${TARFILE} -C / --exclude='odoo-server.conf' --exclude 'odoo-server-dev.conf' --exclude 'odoo-server-debug.conf'
+if [ $? -ne 0 ]
+  then
+    echo "Error! Restore of files failed!"
+    exit 2
+fi
+echo "Files restored"
+
+PWD=${conf[db_password]}
+export PGPASSWORD=$PWD
+echo "Restore of database..."
+pg_restore -Fc -O -U ${conf[db_user]} -h ${conf[db_host]} -d ${DBNAME} ${DBFILE}
+if [ $? -ne 0 ]
+  then
+    echo "Error! DB restore failed!"
+    exit 2
+fi
+echo "Database restored"
+echo "Restore finished"
