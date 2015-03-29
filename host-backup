@@ -7,9 +7,9 @@ readonly STD="\e[0m"
 if [ $# -lt 2 ]
   then
     echo -e "${RED}Error! Too few arguments supplied!${STD}"
-    echo -e "${STD}Command: host-backup <customer> <db>"
+    echo -e "${STD}Command: sudo host-backup <customer> <db>"
     echo -e "${STD}--- or ---"
-    echo -e "${STD}Command: host-backup -c <configfile>"
+    echo -e "${STD}Command: sudo host-backup -c <configfile>"
     exit 1
 fi
 
@@ -32,8 +32,8 @@ if [ "$1" = "-c" ]
         DB=${conf["$KEY"]}
         echo -e "${YELLOW}Starting backup for database ${DB} of ${CUSTOMER}...${STD}"
         docker run --rm -ti \
-          --volumes-from $CUSTOMER.data \
-          -v /jamoshared/backup:/backup  \
+          --volumes-from $CUSTOMER \
+          -v /home/ubuntu/80/backup:/backup  \
           --env DBNAME=$DB \
           jamotion/odoo-backup &> /jamoshared/backup/$CUSTOMER.log
         if [ $? -ne 0 ]
