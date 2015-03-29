@@ -59,6 +59,8 @@ if [ "$1" = "-c" ]
 
     echo -e "${YELLOW}Starting backup for database ${DB} of ${CUSTOMER}...${STD}"
     docker run --rm -ti \
+      --name bkp
+      --link db:db
       --volumes-from $CUSTOMER \
       -v /home/ubuntu/80/backup:/backup  \
       --env DBNAME=$DB jobiols/backup &> /home/ubuntu/$CUSTOMER.backup.log
