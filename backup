@@ -1,17 +1,33 @@
 #!/bin/bash
+if [ ! -f /home/odoo/odoo.conf ]
+  then
+    echo "Error! odoo.conf not found!"
+    exit 2
+fi
+
+declare -A conf
+
+IFS="="
+while read -r name value
+do
+  key=$(echo "$name" | sed 's/^ *//g' | sed 's/ *$//g')
+  val=$(echo "$value" | sed 's/^ *//g' | sed 's/ *$//g')
+  conf[$key]=$val
+done < /home/odoo/odoo.conf
 
 if [ ! -d /backup ]
   then
     mkdir /backup
 fi
 DATE=$(date +"%Y%m%d%H%M")
+
 DBFILE=/backup/${DBNAME}_${DATE}.dump
 TARFILE=/backup/${DBNAME}_${DATE}.tar
 
-PWD=$"odoo"
+PWD=${conf[db_password]}
 export PGPASSWORD=$PWD
 echo "Backup of database..."
-pg_dump -Fc -U odoo -h db -f ${DBFILE} $DBNAME
+pg_dump -Fc -U ${conf[db_user]} -h ${conf[db_host]} -f ${DBFILE} $DBNAME
 if [ $? -ne 0 ]
   then
     echo "Error! DB Backup failed!"
@@ -20,7 +36,7 @@ fi
 echo "Database saved"
 
 echo "Backup of files..."
-tar -cvf ${TARFILE} /filestore
+tar -cvf ${TARFILE} /home/odoo
 if [ $? -ne 0 ]
   then 
     echo "Error! File backup failed!"
