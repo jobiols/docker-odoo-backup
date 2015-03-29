@@ -8,7 +8,7 @@ readonly STD="\e[0m"
 if [ $# -lt 3 ]
   then
     echo -e "${RED}Error! Too few arguments supplied!${STD}"
-    echo -e "${STD}Command: jd-restore <customer> <db> <timestamp>"
+    echo -e "${STD}Command: host-restore <customer> <db> <timestamp>"
     exit 1
 fi
 
@@ -17,8 +17,9 @@ DB=$2
 DATE=$3
 
 docker run --rm -ti \
+       --volumes-from $CUSTOMER \
        -v /home/ubuntu/80/backup:/backup \
        --env DBNAME=$DB \
        --env DATE=$DATE \
        jobiols/backup \
-       restore &> /home/ubuntu/80/$CUSTOMER.restore.log
+       host-restore &> /home/ubuntu/$CUSTOMER.restore.log

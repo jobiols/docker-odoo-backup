@@ -61,7 +61,7 @@ if [ "$1" = "-c" ]
     docker run --rm -ti \
       --volumes-from $CUSTOMER \
       -v /home/ubuntu/80/backup:/backup  \
-      --env DBNAME=$DB jobiols/backup &> /home/ubuntu/$CUSTOMER.log
+      --env DBNAME=$DB jobiols/backup &> /home/ubuntu/$CUSTOMER.backup.log
     if [ $? -ne 0 ]
       then
         echo -e "${RED}Backup for ${CUSTOMER} with  ${DB} failed!${STD}"
