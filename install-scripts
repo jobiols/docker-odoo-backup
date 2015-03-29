@@ -1,0 +1,3 @@
+#!/bin/bash
+sudo cp host-backup /usr/bin
+sudo cp host-restore /usr/bin
