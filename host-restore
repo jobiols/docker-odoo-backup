@@ -16,12 +16,9 @@ CUSTOMER=$1
 DB=$2
 DATE=$3
 
-docker run \
-       -ti \
-       --volumes-from $CUSTOMER.data \
-       -v /jamoshared/backup:/backup \
-       --rm \
+docker run --rm -ti \
+       -v /home/ubuntu/80/backup:/backup \
        --env DBNAME=$DB \
        --env DATE=$DATE \
-       jamotion/odoo-backup \
-       jamo-restore &> /jamoshared/backup/$CUSTOMER.restore.log
+       jobiols/backup \
+       restore &> /home/ubuntu/80/$CUSTOMER.restore.log
