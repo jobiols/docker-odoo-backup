@@ -8,7 +8,7 @@ ADD restore /usr/bin/restore
 RUN chmod a+x /usr/bin/backup
 RUN chmod a+x /usr/bin/restore
 
-RUN chown -R odoo.odoo /backup
+RUN chown -R root.root /backup
 
 VOLUME ["/backup","/filestore"]
 
