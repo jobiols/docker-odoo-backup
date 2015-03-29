@@ -1,4 +1,5 @@
 #!/bin/bash
+################################
 set -x
 readonly RED="\e[31m"
 readonly YELLOW="\e[33m"
@@ -19,7 +20,8 @@ DATE=$3
 docker run --rm -ti \
        --volumes-from $CUSTOMER \
        -v /home/ubuntu/80/backup:/backup \
+       --link db:db \
        --env DBNAME=$DB \
        --env DATE=$DATE \
        jobiols/backup \
-       host-restore &> /home/ubuntu/$CUSTOMER.restore.log
+       restore &> /home/ubuntu/$CUSTOMER.restore.log

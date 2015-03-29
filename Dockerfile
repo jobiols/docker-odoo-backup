@@ -8,6 +8,5 @@ ADD restore /usr/bin/restore
 RUN chmod a+x /usr/bin/backup
 RUN chmod a+x /usr/bin/restore
 
-VOLUME ["/backup","/filestore"]
+VOLUME ["/backup"]
 
-CMD ["/usr/bin/backup"]
