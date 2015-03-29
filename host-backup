@@ -7,16 +7,16 @@ readonly STD="\e[0m"
 if [ $# -lt 2 ]
   then
     echo -e "${RED}Error! Too few arguments supplied!${STD}"
-    echo -e "${STD}Command: jd-backup <customer> <db>"
+    echo -e "${STD}Command: host-backup <customer> <db>"
     echo -e "${STD}--- or ---"
-    echo -e "${STD}Command: jd-backup -c <configfile>"
+    echo -e "${STD}Command: host-backup -c <configfile>"
     exit 1
 fi
 
 HASERROR=0
 
 if [ "$1" = "-c" ]
-  then 
+  then
     declare -A conf
 
     IFS="="
@@ -31,10 +31,13 @@ if [ "$1" = "-c" ]
         CUSTOMER=$KEY
         DB=${conf["$KEY"]}
         echo -e "${YELLOW}Starting backup for database ${DB} of ${CUSTOMER}...${STD}"
-        docker run --rm -ti --volumes-from $CUSTOMER.data -v /jamoshared/backup:/backup \
-          --env DBNAME=$DB jamotion/odoo-backup &> /jamoshared/backup/$CUSTOMER.log
+        docker run --rm -ti \
+          --volumes-from $CUSTOMER.data \
+          -v /jamoshared/backup:/backup  \
+          --env DBNAME=$DB \
+          jamotion/odoo-backup &> /jamoshared/backup/$CUSTOMER.log
         if [ $? -ne 0 ]
-          then 
+          then
             echo -e "${RED}Backup for ${CUSTOMER} with  ${DB} failed!${STD}"
             HASERROR=1
           else
@@ -42,7 +45,7 @@ if [ "$1" = "-c" ]
         fi
     done
     echo -e "{YELLOW}Removing files older than 30 days...${STD}"
-    find /jamoshared/backup/ -type f -mtime +30 -exec rm {} \;  
+    find /jamoshared/backup/ -type f -mtime +30 -exec rm {} \;
     if [ $? -ne 0 ]
       then
         echo -e "${RED}Removing old files failed!${STD}"
@@ -55,16 +58,12 @@ if [ "$1" = "-c" ]
     DB=$2
 
     echo -e "${YELLOW}Starting backup for database ${DB} of ${CUSTOMER}...${STD}"
-      docker run --rm -ti \
-        -v /home/ubuntu/80/backup:/backup  \
-        -v /home/ubuntu/80/files:/filestore \
-      --env DBNAME=$DB jobiols/backup &> /home/ubuntu/80/$CUSTOMER.log
-
-#    docker run --rm -ti --volumes-from $CUSTOMER.data -v /jamoshared/backup:/backup  \
-#      --env DBNAME=$DB jamotion/odoo-backup &> /jamoshared/backup/$CUSTOMER.log
-
+    docker run --rm -ti \
+      --volumes-from $CUSTOMER \
+      -v /home/ubuntu/80/backup:/backup  \
+      --env DBNAME=$DB jobiols/backup &> /home/ubuntu/$CUSTOMER.log
     if [ $? -ne 0 ]
-      then 
+      then
         echo -e "${RED}Backup for ${CUSTOMER} with  ${DB} failed!${STD}"
         HASERROR=1
       else
@@ -73,7 +72,7 @@ if [ "$1" = "-c" ]
 fi
 
 if [ "$HASERROR" = "1" ]
-  then 
+  then
     echo -e "${RED}Errors occured on backup process!!!!${STD}"
     exit 2
 fi
