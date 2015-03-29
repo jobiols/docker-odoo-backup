@@ -9,3 +9,5 @@ RUN chmod a+x /usr/bin/backup
 RUN chmod a+x /usr/bin/restore
 
 VOLUME ["/backup","/filestore"]
+
+CMD ["/usr/bin/backup"]
