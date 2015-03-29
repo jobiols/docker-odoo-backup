@@ -1,7 +1,7 @@
 #!/bin/bash
-if [ ! -f /data/odoo/odoo-server.conf ]
+if [ ! -f /home/odoo/odoo.conf ]
   then
-    echo "Error! odoo-server.conf not found!"
+    echo "Error! odoo.conf not found!"
     exit 2
 fi
 
@@ -13,7 +13,7 @@ do
   key=$(echo "$name" | sed 's/^ *//g' | sed 's/ *$//g')
   val=$(echo "$value" | sed 's/^ *//g' | sed 's/ *$//g')
   conf[$key]=$val
-done < /data/odoo/odoo-server.conf
+done < /home/odoo/odoo.conf
 
 if [ ! -d /backup ]
   then
@@ -37,7 +37,7 @@ if [ ! -f ${DBFILE} ]
 fi
 
 echo "Restore files..."
-tar -xvf ${TARFILE} -C / --exclude='odoo-server.conf' --exclude 'odoo-server-dev.conf' --exclude 'odoo-server-debug.conf'
+tar -xvf ${TARFILE} -C / --exclude='odoo.conf' --exclude 'odoo-dev.conf' --exclude 'odoo-debug.conf'
 if [ $? -ne 0 ]
   then
     echo "Error! Restore of files failed!"
