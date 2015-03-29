@@ -58,7 +58,7 @@ if [ "$1" = "-c" ]
       docker run --rm -ti \
         -v /home/ubuntu/80/backup:/backup  \
         -v /home/ubuntu/80/files:/filestore \
-      --env DBNAME=$DB jamotion/odoo-backup &> /home/ubuntu/80/$CUSTOMER.log
+      --env DBNAME=$DB jobiols/backup &> /home/ubuntu/80/$CUSTOMER.log
 
 #    docker run --rm -ti --volumes-from $CUSTOMER.data -v /jamoshared/backup:/backup  \
 #      --env DBNAME=$DB jamotion/odoo-backup &> /jamoshared/backup/$CUSTOMER.log
