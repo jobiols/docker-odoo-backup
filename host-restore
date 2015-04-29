@@ -1,6 +1,6 @@
 #!/bin/bash
 ################################
-set -x
+#set -x
 readonly RED="\e[31m"
 readonly YELLOW="\e[33m"
 readonly GREEN="\e[32m"
