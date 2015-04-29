@@ -25,3 +25,11 @@ docker run --rm -ti \
        --env DATE=$DATE \
        jobiols/backup \
        restore &> /home/ubuntu/$CUSTOMER.restore.log
+
+if [ $? -ne 0 ]
+  then
+    echo -e "${RED}Restore for ${CUSTOMER} with  ${DB} failed!${STD}"
+    HASERROR=1
+  else
+  echo -e "${GREEN}Restore for ${DB} successful done${STD}"
+fi
