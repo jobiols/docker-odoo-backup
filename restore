@@ -48,7 +48,9 @@ echo "Files restored"
 PWD=${conf[db_password]}
 export PGPASSWORD=$PWD
 echo "Restore of database..."
-pg_restore -Fc -O -U ${conf[db_user]} -h ${conf[db_host]} -d ${DBNAME} ${DBFILE}
+#pg_restore -Fc -O -U ${conf[db_user]} -h ${conf[db_host]} -d ${DBNAME} ${DBFILE}
+pg_restore -U ${conf[db_user]} -h ${conf[db_host]} -d template1 -c -C ${DBFILE}
+
 if [ $? -ne 0 ]
   then
     echo "Error! DB restore failed!"
