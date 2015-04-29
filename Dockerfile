@@ -1,4 +1,4 @@
-FROM ubuntu:14.04.1
+FROM ubuntu:14.04.2
 MAINTAINER Jorge Obiols <jorge.obiols@gmail.com>
 
 RUN apt-get update && apt-get install -y postgresql-client
