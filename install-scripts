@@ -1,6 +1,0 @@
-#!/bin/bash
-###################################################
-sudo git pull
-sudo cp host-backup /usr/bin
-sudo cp host-restore /usr/bin
-sudo docker pull jobiols/backup
