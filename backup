@@ -37,7 +37,7 @@ fi
 echo "Database saved"
 
 echo "Backup of files..."
-tar -cvf ${TARFILE} /home/odoo
+tar -cvf ${TARFILE} /var/lib/odoo
 if [ $? -ne 0 ]
   then 
     echo "Error! File backup failed!"
