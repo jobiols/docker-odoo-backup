@@ -13,7 +13,7 @@ do
   key=$(echo "$name" | sed 's/^ *//g' | sed 's/ *$//g')
   val=$(echo "$value" | sed 's/^ *//g' | sed 's/ *$//g')
   conf[$key]=$val
-done < /home/odoo/odoo.conf
+done < /etc/odoo/openerp-server.conf
 
 if [ ! -d /backup ]
   then
