@@ -1,5 +1,5 @@
 #!/bin/bash
-if [ ! -f /home/odoo/odoo.conf ]
+if [ ! -f /etc/odoo/openerp-server.conf ]
   then
     echo "Error! odoo.conf not found!"
     exit 2
