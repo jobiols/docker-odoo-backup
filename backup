@@ -28,7 +28,8 @@ PWD=${conf[db_password]}
 export PGPASSWORD=$PWD
 echo "Backup of database... pg_dump -Fc -U ${conf[db_user]} -h ${conf[db_host]} -f ${DBFILE} $DBNAME"
 
-pg_dump -Fc -U ${conf[db_user]} -h ${conf[db_host]} -f ${DBFILE} $DBNAME
+#pg_dump -Fc -U ${conf[db_user]} -h ${conf[db_host]} -f ${DBFILE} $DBNAME
+pg_dump -Fc -U odoo -h db -f ${DBFILE} $DBNAME
 if [ $? -ne 0 ]
   then
     echo "Error! DB Backup failed!"
