@@ -25,10 +25,12 @@ DBFILE=/backup/${DBNAME}_${DATE}.dump
 TARFILE=/backup/${DBNAME}_${DATE}.tar
 
 PWD=${conf[db_password]}
+PWD="odoo"
 export PGPASSWORD=$PWD
 echo "Backup of database... pg_dump -Fc -U ${conf[db_user]} -h ${conf[db_host]} -f ${DBFILE} $DBNAME"
 
 #pg_dump -Fc -U ${conf[db_user]} -h ${conf[db_host]} -f ${DBFILE} $DBNAME
+echo "Backup pg_dump -Fc -U odoo -h db -f ${DBFILE} $DBNAME"
 pg_dump -Fc -U odoo -h db -f ${DBFILE} $DBNAME
 if [ $? -ne 0 ]
   then
