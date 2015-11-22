@@ -1,31 +1,9 @@
 #!/bin/bash
-#if [ ! -f /etc/odoo/openerp-server.conf ]
-#  then
-#    echo "Error! odoo.conf not found!"
-#    exit 2
-#fi
-
-#declare -A conf
-
-#IFS="="
-#while read -r name value
-#do
-#  key=$(echo "$name" | sed 's/^ *//g' | sed 's/ *$//g')
-#  val=$(echo "$value" | sed 's/^ *//g' | sed 's/ *$//g')
-#  conf[$key]=$val
-#done < /etc/odoo/openerp-server.conf
-
-#if [ ! -d /backup ]
-#  then
-#    mkdir /backup
-#fi
 
 DATE=$(date +"%Y%m%d%H%M")
 DBFILE=/backup/${DBNAME}_${DATE}.dump
 TARFILE=/backup/${DBNAME}_${DATE}.tar
 
-#PWD=${conf[db_password]}
-#PWD="odoo"
 export PGPASSWORD="odoo"
 #echo "Backup of database... pg_dump -Fc -U ${conf[db_user]} -h ${conf[db_host]} -f ${DBFILE} $DBNAME"
 
@@ -47,4 +25,5 @@ if [ $? -ne 0 ]
     exit 2
 fi
 echo "Files saved"
+
 echo "Backup finished"

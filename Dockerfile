@@ -8,8 +8,6 @@ RUN apt-get update && apt-get install -y postgresql-client-9.4
 
 ADD backup /usr/bin/backup
 ADD restore /usr/bin/restore
-RUN chmod a+x /usr/bin/backup
-RUN chmod a+x /usr/bin/restore
 
 VOLUME ["/backup"]
 
