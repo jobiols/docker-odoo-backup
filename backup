@@ -20,4 +20,4 @@ if [ $? -ne 0 ]
     echo $FDATE"Error! File backup failed!"
     exit 2
 fi
-echo $FDATE"Files saved"
+echo $FDATE" Files saved"
