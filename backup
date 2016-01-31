@@ -5,8 +5,6 @@ FDATE=$(date +"%d/%m/%Y %H:%M")
 DBFILE=/backup/${DBNAME}_${DATE}.dump
 TARFILE=/backup/${DBNAME}_${DATE}.tar
 
-echo $FDATE" backup is being done" >> /backup/kk.log
-
 export PGPASSWORD="odoo"
 pg_dump -Fc -U odoo -h db -f ${DBFILE} $DBNAME
 if [ $? -ne 0 ]
